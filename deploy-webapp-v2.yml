@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deploy-webapp
+  labels:
+    app: asp-web-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: asp-web-app
+  template:
+    metadata:
+      labels:
+        app: asp-web-app
+    spec:
+      containers:
+        - name: asp-net-razor-web-app
+          image: vitorsouza97/aspwebapp:v2
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 5000
+              protocol: TCP
+          env:
+            - name: ASPNETCORE_URLS
+              value: http://+:5000
+            - name: WebApiBaseAddress
+              value: http://webapi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: asp-web-app-service
+  labels:
+    app: asp-web-app
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 5000
+      targetPort: 5000
+      protocol: TCP
+  selector:
+    app: asp-web-app

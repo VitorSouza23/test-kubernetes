@@ -1,22 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: webapp
+  name: deploy-webapp
   labels:
     app: asp-web-app
 spec:
   replicas: 1
   selector:
     matchLabels:
-      service: webapp
+      app: asp-web-app
   template:
     metadata:
       labels:
         app: asp-web-app
-        service: webapp
     spec:
       containers:
-        - name: webapp
+        - name: asp-net-razor-web-app
           image: vitorsouza97/aspwebapp:v1
           imagePullPolicy: IfNotPresent
           ports:
@@ -31,10 +30,9 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: webapp
+  name: asp-web-app-service
   labels:
     app: asp-web-app
-    service: webapp
 spec:
   type: LoadBalancer
   ports:
@@ -42,4 +40,4 @@ spec:
       targetPort: 5000
       protocol: TCP
   selector:
-    service: webapp
+    app: asp-web-app

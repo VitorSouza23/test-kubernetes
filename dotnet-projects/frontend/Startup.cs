@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using test_kubernetes.Services;
 
 namespace test_kubernetes
 {
@@ -22,6 +23,8 @@ namespace test_kubernetes
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            string apiUrl = Configuration.GetValue<string>("APIUrl");
+            services.AddHttpClient<IWeatherForecastService, WeatherForecastService>(c => c.BaseAddress = new Uri(apiUrl));
             services.AddRazorPages();
         }
 

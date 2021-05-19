@@ -24,8 +24,6 @@ spec:
           env:
             - name: ASPNETCORE_URLS
               value: http://+:5000
-            - name: WebApiBaseAddress
-              value: http://webapi
 ---
 apiVersion: v1
 kind: Service

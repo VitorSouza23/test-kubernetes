@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: deploy-webapp
+  name: aspwebapp
   labels:
     app: asp-web
 spec:
@@ -26,7 +26,7 @@ spec:
             - name: ASPNETCORE_URLS
               value: http://+:5000
             - name: APIUrl
-              value: http://webapi
+              value: http://$(WEBAPI_SERVICE_HOST):$(WEBAPI_SERVICE_PORT)
             - name: ASPNETCORE_ENVIRONMENT
               value: Development
 ---

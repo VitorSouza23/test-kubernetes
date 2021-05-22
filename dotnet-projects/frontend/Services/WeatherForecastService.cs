@@ -23,7 +23,10 @@ namespace test_kubernetes.Services
             _logger.LogInformation("Fetch data...");
             var response = await _httpClient.GetAsync("/WeatherForecast");
             var responseString = await response.Content.ReadAsStringAsync();
-            return JsonSerializer.Deserialize<IEnumerable<WeatherForecast>>(responseString);
+            return JsonSerializer.Deserialize<IEnumerable<WeatherForecast>>(responseString, new JsonSerializerOptions
+            {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+            });
         }
     }
 }

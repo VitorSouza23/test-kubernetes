@@ -49,6 +49,26 @@
             "type": "coreclr",
             "request": "attach",
             "processId": "${command:pickProcess}"
+        },
+        {
+            "name": ".NET Core Launch (console)",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/backend/bin/Debug/net5.0/backend.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/backend",
+            "console": "internalConsole",
+            "stopAtEntry": false
+        },
+        {
+            "name": "Docker .NET Core Launch",
+            "type": "docker",
+            "request": "launch",
+            "preLaunchTask": "docker-run: debug",
+            "netCore": {
+                "appProject": "${workspaceFolder}/backend/backend.csproj"
+            }
         }
     ]
 }

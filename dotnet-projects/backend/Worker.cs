@@ -36,13 +36,13 @@ namespace backend
             WeatherForecast weatherForecast = new()
             {
                 Date = DateTime.UtcNow,
-                Key = Guid.NewGuid(),
+                Id = Guid.NewGuid(),
                 Summary = $"Sample nº {DateTime.UtcNow.Ticks}",
                 TemperatureC = _random.Next(100)
             };
 
-            await _redisContext.InserData(weatherForecast, weatherForecast.Key.ToString());
-            _logger.LogInformation($"Key {weatherForecast.Key} inserted");
+            await _redisContext.InserDataAsync(weatherForecast, weatherForecast.Id.ToString());
+            _logger.LogInformation($"Key {weatherForecast.Id} inserted");
         }
     }
 }

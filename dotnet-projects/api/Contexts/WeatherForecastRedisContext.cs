@@ -2,11 +2,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
-using backend.Model;
 using Microsoft.Extensions.Configuration;
 using StackExchange.Redis;
 
-namespace backend.Contexts
+namespace api.Contexts
 {
     public class WeatherForecastRedisContext : IRedisContext<WeatherForecast>
     {
@@ -18,21 +17,14 @@ namespace backend.Contexts
                 configuration.GetConnectionString("Redis"));
         }
 
-        public async Task InserData(WeatherForecast value, string key)
-        {
-            var database = _conexao.GetDatabase();
-            string data = JsonSerializer.Serialize(value);
-            await database.StringSetAsync(key, data, expiry: null);
-        }
-
-        public async Task<WeatherForecast> GetData(string key)
+        public async Task<WeatherForecast> GetDataAsync(string key)
         {
             var database = _conexao.GetDatabase();
             var data = await database.StringGetAsync(key);
             return JsonSerializer.Deserialize<WeatherForecast>(data);
         }
 
-        public async Task<IEnumerable<WeatherForecast>> GetAll()
+        public async Task<IEnumerable<WeatherForecast>> GetAllAsync()
         {
             var endpoint = _conexao.GetEndPoints().FirstOrDefault();
             var database = _conexao.GetDatabase();

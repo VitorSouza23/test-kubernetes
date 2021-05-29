@@ -4,7 +4,8 @@ namespace backend.Model
 {
     public class WeatherForecast
     {
-        public Guid Key { get; set; }
+        public Guid Id { get; set; }
+
         public DateTime Date { get; set; }
 
         public int TemperatureC { get; set; }

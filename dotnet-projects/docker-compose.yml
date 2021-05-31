@@ -10,7 +10,7 @@ services:
         ports: 
         - 5100:5100
         environment:
-        - ConnectionStrings.Redis=redis:6379
+        - ConnectionStrings:Redis=redis:6379
         networks:
         - aspweb
         depends_on:
@@ -26,7 +26,7 @@ services:
         ports: 
         - 5000:5000
         environment:
-        - APIUrl=webapapi:5100
+        - APIUrl=http://webapi:5100
         networks: 
         - aspweb
         depends_on:
@@ -39,7 +39,7 @@ services:
             context: .
             dockerfile: backend/Dockerfile
         environment:
-        - ConnectionStrings.Redis=redis:6379
+        - ConnectionStrings:Redis=redis:6379
         networks:
         - aspweb
         depends_on:

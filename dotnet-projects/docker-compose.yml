@@ -1,0 +1,60 @@
+version: "3.9"
+
+services:
+    webapi:
+        image: vitorsouza97/aspwebapi:v1
+        container_name: aspwebapi
+        build: 
+            context: .
+            dockerfile: api/Dockerfile
+        ports: 
+        - 5100:5100
+        environment:
+        - ConnectionStrings.Redis=redis:6379
+        networks:
+        - aspweb
+        depends_on:
+        - redis
+        - worker
+
+    webapp:
+        image: vitorsouza97/aspwebapp:v2
+        container_name: aspwebapp
+        build: 
+            context: .
+            dockerfile: frontend/Dockerfile
+        ports: 
+        - 5000:5000
+        environment:
+        - APIUrl=webapapi:5100
+        networks: 
+        - aspweb
+        depends_on:
+        - webapi
+
+    worker:
+        image: vitorsouza97/aspworker:v1
+        container_name: aspworker
+        build:
+            context: .
+            dockerfile: backend/Dockerfile
+        environment:
+        - ConnectionStrings.Redis=redis:6379
+        networks:
+        - aspweb
+        depends_on:
+        - redis
+        
+    redis:
+        image: redis
+        container_name: redis
+        ports:
+        - 6379:6379
+        networks: 
+        - aspweb
+
+networks: 
+    aspweb:
+        driver: bridge
+    
+    

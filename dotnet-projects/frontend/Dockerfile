@@ -11,10 +11,10 @@ USER appuser
 
 FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
 WORKDIR /src
-COPY ["test-kubernetes.csproj", "./"]
-RUN dotnet restore "test-kubernetes.csproj"
+COPY ["frontend/test-kubernetes.csproj", "frontend/"]
+RUN dotnet restore "frontend/test-kubernetes.csproj"
 COPY . .
-WORKDIR "/src/."
+WORKDIR "/src/frontend"
 RUN dotnet build "test-kubernetes.csproj" -c Release -o /app/build
 
 FROM build AS publish

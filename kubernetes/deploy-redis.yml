@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis
+  labels:
+    app: asp-web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      communicator: redisservice
+  template:
+    metadata:
+      labels:
+        app: asp-web
+        communicator: redisservice
+    spec:
+      containers:
+      - name: asp-net-redis
+        image: redis
+        imagePullPolicy: IfNotPresent
+        ports:
+          - containerPort: 6379
+            protocol: TCP
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis
+  labels:
+    app: asp-web
+    communicator: redisservice
+spec:
+  ports:
+    - port: 6379
+      targetPort: 6379
+      protocol: TCP
+  selector:
+    communicator: redisservice

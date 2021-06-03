@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: worker
+  labels:
+    app: asp-web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      service: worker
+  template:
+    metadata:
+      labels:
+        app: asp-web
+        service: worker
+    spec:
+      containers:
+        - name: asp-worker
+          image: vitorsouza97/aspworker:v1
+          imagePullPolicy: Always
+          env:
+            - name: ConnectionStrings__Redis
+              value: redis:6379
+      initContainers: 
+        - name: init-redis
+          image: busybox
+          command: ['sh', '-c', 'until nslookup redis; do echo waiting for redis; sleep 2; done;']

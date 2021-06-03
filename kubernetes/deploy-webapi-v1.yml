@@ -27,6 +27,12 @@ spec:
               value: http://+:5100
             - name: ASPNETCORE_ENVIRONMENT
               value: Development
+            - name: ConnectionStrings__Redis
+              value: redis:6379
+      initContainers:
+        - name: init-redis
+          image: busybox
+          command: ['sh', '-c', 'until nslookup redis; do echo waiting for redis; sleep 2; done;']
 ---
 apiVersion: v1
 kind: Service

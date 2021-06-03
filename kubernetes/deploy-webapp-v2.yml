@@ -29,6 +29,10 @@ spec:
               value: http://webapi:5100
             - name: ASPNETCORE_ENVIRONMENT
               value: Development
+      initContainers:
+        - name: init-webapi
+          image: busybox
+          command: ['sh', '-c', 'until nslookup webapi; do echo waiting for redis; sleep 2; done;']
 ---
 apiVersion: v1
 kind: Service
